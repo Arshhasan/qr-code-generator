@@ -65,48 +65,63 @@
 
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script>
-    function generateQR() {
-      const rawInput = document.getElementById("text").value.trim();
-      const qrContainer = document.getElementById("qrcode");
-      const downloadLink = document.getElementById("downloadLink");
-
-      qrContainer.innerHTML = ""; // Clear previous QR
-      downloadLink.classList.add("hidden"); // Hide download link initially
-
-      if (rawInput === "") {
-        alert("Please enter something.");
-        return;
-      }
-
-      // Auto-fix URL if needed
-      let destinationUrl = rawInput;
-      if (!destinationUrl.startsWith("http://") && !destinationUrl.startsWith("https://")) {
-        if (destinationUrl.includes(".") && !destinationUrl.includes(" ")) {
-          destinationUrl = "https://" + destinationUrl;
-        }
-      }
-
-      // IMPORTANT: Put your correct domain/path
-    //   const redirectUrl = `redirect.html?url=${encodeURIComponent(destinationUrl)}`;
-    const redirectUrl = `https://arshhasan.github.io/qr-code-generator/redirect.html?url=${encodeURIComponent(destinationUrl)}`;
-
-
-      new QRCode(qrContainer, {
-        text: redirectUrl,
-        width: 200,
-        height: 200,
-        correctLevel: QRCode.CorrectLevel.H,
-      });
-
-      setTimeout(() => {
-        const qrImage = qrContainer.querySelector("img");
-        if (qrImage) {
-          downloadLink.href = qrImage.src;
-          downloadLink.classList.remove("hidden");
-        }
-      }, 100);
+  function isValidURL(string) {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
     }
+  }
+  
+  function generateQR() {
+    const rawInput = document.getElementById("text").value.trim();
+    const qrContainer = document.getElementById("qrcode");
+    const downloadLink = document.getElementById("downloadLink");
+  
+    qrContainer.innerHTML = ""; 
+    downloadLink.classList.add("hidden"); 
+  
+    if (rawInput === "") {
+      alert("Please enter some text or URL.");
+      return;
+    }
+  
+    let destinationUrl = rawInput;
+  
+    // If it looks like a domain (like google.com) without http, add https
+    if (!destinationUrl.startsWith("http://") && !destinationUrl.startsWith("https://")) {
+      if (destinationUrl.includes(".") && !destinationUrl.includes(" ")) {
+        destinationUrl = "https://" + destinationUrl;
+      }
+    }
+  
+    // Now validate the URL properly
+    if (!isValidURL(destinationUrl)) {
+      alert("Please enter a valid URL (like https://example.com) or clean text.");
+      return;
+    }
+  
+    // Safe to proceed
+    const redirectUrl = `https://arshhasan.github.io/qr-code-generator/redirect.html?url=${encodeURIComponent(destinationUrl)}`;
+  
+    new QRCode(qrContainer, {
+      text: redirectUrl,
+      width: 200,
+      height: 200,
+      correctLevel: QRCode.CorrectLevel.H,
+    });
+  
+    setTimeout(() => {
+      const qrImage = qrContainer.querySelector("img");
+      if (qrImage) {
+        downloadLink.href = qrImage.src;
+        downloadLink.classList.remove("hidden");
+      }
+    }, 100);
+  }
   </script>
+  
 <footer class="bg-gray-100 border-t mt-16 py-8 text-center text-sm text-gray-700">
     <div class="max-w-2xl mx-auto px-4">
       <div class="space-y-2">
