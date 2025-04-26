@@ -60,7 +60,9 @@
       }
 
       // IMPORTANT: Put your correct domain/path
-      const redirectUrl = `redirect.html?url=${encodeURIComponent(destinationUrl)}`;
+    //   const redirectUrl = `redirect.html?url=${encodeURIComponent(destinationUrl)}`;
+    const redirectUrl = `https://arshhasan.github.io/qr-code-generator/redirect.html?url=${encodeURIComponent(destinationUrl)}`;
+
 
       new QRCode(qrContainer, {
         text: redirectUrl,
