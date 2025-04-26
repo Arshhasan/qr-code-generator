@@ -43,6 +43,14 @@
           height: 200,
           correctLevel: QRCode.CorrectLevel.H,
         });
+        // Wait for the QR code image to be generated, then enable download
+        setTimeout(() => {
+          const qrImage = qrContainer.querySelector("img");
+          if (qrImage) {
+            downloadLink.href = qrImage.src; // Set download link to QR code image source
+            downloadLink.classList.remove("hidden"); // Show the download link
+          }
+        }, 100);
       }
     </script>
   </body>
