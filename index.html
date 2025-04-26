@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  </head>
+  <body class="bg-gray-50">
+    <div class="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg mt-20">
+      <h2 class="text-3xl font-bold text-center mb-6">QR Code Generator</h2>
+      
+      <input type="text" id="text" placeholder="Enter URL or text" class="w-full p-2 border rounded-lg mb-4" />
+      <button onclick="generateQR()" class="w-full bg-blue-500 text-white p-2 rounded-lg">Generate QR Code</button>
+
+      <div id="qrcode" class="mt-6 flex justify-center"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script>
+      function generateQR() {
+        const rawInput = document.getElementById("text").value.trim();
+        const qrContainer = document.getElementById("qrcode");
+        
+        qrContainer.innerHTML = ""; // Clear old QR
+
+        if (rawInput === "") {
+          alert("Please enter something.");
+          return;
+        }
+
+        // Auto-detect and prepend https:// if it's a domain or URL without scheme
+        let url = rawInput;
+        if (!rawInput.startsWith("http://") && !rawInput.startsWith("https://")) {
+          if (rawInput.includes(".") && !rawInput.includes(" ")) {
+            url = "https://" + rawInput;
+          }
+        }
+
+        new QRCode(qrContainer, {
+          text: url,
+          width: 200,
+          height: 200,
+          correctLevel: QRCode.CorrectLevel.H,
+        });
+      }
+    </script>
+  </body>
+</html>
