@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Redirecting...</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    .ad-box {
+      border: 2px dashed #999;
+      padding: 30px;
+      margin: 30px 0;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hold on! Redirecting you...</h1>
+  <div class="ad-box">
+    <p>🔔 This could be an ad space or sponsor message</p>
+    <p><em>You’ll be redirected shortly...</em></p>
+  </div>
+  <p id="countdown">Redirecting in <span id="timer">5</span> seconds...</p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const url = params.get("url");
+
+    if (!url) {
+      document.body.innerHTML = "<h2>Error: No URL provided!</h2>";
+    } else {
+      let seconds = 5;
+      const timer = document.getElementById("timer");
+
+      const countdown = setInterval(() => {
+        seconds--;
+        timer.textContent = seconds;
+        if (seconds <= 0) {
+          clearInterval(countdown);
+          window.location.href = url;
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
