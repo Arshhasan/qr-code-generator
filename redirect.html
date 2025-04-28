@@ -71,7 +71,7 @@
     <p><em>You’ll be able to continue shortly...</em></p>
   </div>
 
-  <p id="countdown">Please wait <span id="timer">5</span> seconds...</p>
+  <!-- <p id="countdown">Please wait <span id="timer">5</span> seconds...</p>
 
   <button id="continue-btn">Continue</button>
 
@@ -100,6 +100,40 @@
         window.location.href = url;
       });
     }
+  </script> -->
+  <p id="countdown">Redirecting in <span id="timer">5</span> seconds...</p>
+  <!-- <button id="continueBtn" style="display: none;" onclick="redirectNow()">Continue</button> -->
+  
+  <button id="continueBtn" class="mt-4 bg-green-500 text-white p-2 rounded-lg hidden" onclick="redirectNow()">Continue</button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const url = params.get("url");
+  
+    if (!url) {
+      document.body.innerHTML = "<h2>Error: No URL provided!</h2>";
+    } else {
+      let seconds = 5;
+      const timer = document.getElementById("timer");
+      const continueBtn = document.getElementById("continueBtn");
+  
+      const countdown = setInterval(() => {
+        seconds--;
+        timer.textContent = seconds;
+        if (seconds <= 0) {
+          clearInterval(countdown);
+          document.getElementById("countdown").textContent = "Ready!";
+        //   continueBtn.style.display = "inline-block";
+        continueBtn.classList.remove("hidden");
+
+        }
+      }, 1000);
+  
+      function redirectNow() {
+        window.location.href = url;
+      }
+    }
   </script>
+  
 </body>
 </html>
