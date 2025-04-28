@@ -4,6 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Redirecting...</title>
+  
+  <!-- Google Analytics (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KT92VSQHE6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-KT92VSQHE6');
+
+    // Track ad view immediately when page loads
+    window.addEventListener('load', function() {
+      gtag('event', 'ad_viewed', {
+        'event_category': 'Ads',
+        'event_label': 'Redirect Page View'
+      });
+    });
+  </script>
+
   <style>
     body {
       font-family: sans-serif;
@@ -35,31 +54,20 @@
       text-decoration: underline;
     }
 
-    #continue-btn {
-      display: none;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    #continue-btn:hover {
-      background-color: #0056b3;
-    }
-
     @keyframes pulse {
       0% { transform: scale(1); }
       50% { transform: scale(1.05); }
       100% { transform: scale(1); }
     }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 
 <body>
+
   <h1>Hold on! Redirecting you...</h1>
 
   <div class="ad-box">
@@ -71,39 +79,8 @@
     <p><em>You’ll be able to continue shortly...</em></p>
   </div>
 
-  <!-- <p id="countdown">Please wait <span id="timer">5</span> seconds...</p>
-
-  <button id="continue-btn">Continue</button>
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const url = params.get("url");
-
-    if (!url) {
-      document.body.innerHTML = "<h2>Error: No URL provided!</h2>";
-    } else {
-      let seconds = 5;
-      const timer = document.getElementById("timer");
-      const continueBtn = document.getElementById("continue-btn");
-
-      const countdown = setInterval(() => {
-        seconds--;
-        timer.textContent = seconds;
-        if (seconds <= 0) {
-          clearInterval(countdown);
-          document.getElementById("countdown").textContent = "Ready!";
-          continueBtn.style.display = "inline-block";
-        }
-      }, 1000);
-
-      continueBtn.addEventListener("click", () => {
-        window.location.href = url;
-      });
-    }
-  </script> -->
   <p id="countdown">Redirecting in <span id="timer">5</span> seconds...</p>
-  <!-- <button id="continueBtn" style="display: none;" onclick="redirectNow()">Continue</button> -->
-  
+
   <button id="continueBtn" class="mt-4 bg-green-500 text-white p-2 rounded-lg hidden" onclick="redirectNow()">Continue</button>
 
   <script>
@@ -111,7 +88,7 @@
     const url = params.get("url");
   
     if (!url) {
-      document.body.innerHTML = "<h2>Error: No URL provided!</h2>";
+      document.body.innerHTML = "<h2 style='color:red;'>Error: No URL provided!</h2>";
     } else {
       let seconds = 5;
       const timer = document.getElementById("timer");
@@ -123,17 +100,21 @@
         if (seconds <= 0) {
           clearInterval(countdown);
           document.getElementById("countdown").textContent = "Ready!";
-        //   continueBtn.style.display = "inline-block";
-        continueBtn.classList.remove("hidden");
-
+          continueBtn.classList.remove("hidden");
         }
       }, 1000);
   
       function redirectNow() {
+        // Track button click before redirecting
+        gtag('event', 'continue_clicked', {
+          'event_category': 'Button',
+          'event_label': 'Redirect Continue Button'
+        });
+
         window.location.href = url;
       }
     }
   </script>
-  
+
 </body>
 </html>
