@@ -1,29 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-  <!-- google adds -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Redirecting...</title>
-  
-  <!-- Google Analytics (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KT92VSQHE6"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-KT92VSQHE6');
-
-    // Track ad view immediately when page loads
-    window.addEventListener('load', function() {
-      gtag('event', 'ad_viewed', {
-        'event_category': 'Ads',
-        'event_label': 'Redirect Page View'
-      });
-    });
-  </script>
 
   <style>
     body {
@@ -32,38 +12,28 @@
       padding: 50px;
     }
 
-    .ad-box {
-      border: 2px dashed #999;
-      padding: 30px;
-      margin: 30px 0;
-      background-color: #f9f9f9;
-      position: relative;
-    }
-
-    .ad-banner {
-      background-color: #fff8e1;
-      border: 1px solid #ffc107;
-      padding: 10px 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      font-weight: bold;
-      color: #8a6d00;
-      animation: pulse 1.5s infinite;
-    }
-
-    .ad-banner a {
-      color: #007bff;
-      text-decoration: underline;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
+    #countdown {
+      margin-top: 20px;
+      font-size: 1.2rem;
     }
 
     .hidden {
       display: none;
+    }
+
+    button {
+      margin-top: 20px;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
@@ -72,30 +42,21 @@
 
   <h1>Hold on! Redirecting you...</h1>
 
-  <div class="ad-box">
-    <div class="ad-banner">
-      📢 <strong>Advertise Here:</strong> <a href="mailto:arshhasan2016@gmail.com">Contact Us</a> to buy this ad space!
-    </div>
-
-    <p>🔔 This could be an ad space or sponsor message</p>
-    <p><em>You’ll be able to continue shortly...</em></p>
-  </div>
-
   <p id="countdown">Redirecting in <span id="timer">5</span> seconds...</p>
 
-  <button id="continueBtn" class="mt-4 bg-green-500 text-white p-2 rounded-lg hidden" onclick="redirectNow()">Continue</button>
+  <button id="continueBtn" class="hidden" onclick="redirectNow()">Continue</button>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const url = params.get("url");
-  
+
     if (!url) {
       document.body.innerHTML = "<h2 style='color:red;'>Error: No URL provided!</h2>";
     } else {
       let seconds = 5;
       const timer = document.getElementById("timer");
       const continueBtn = document.getElementById("continueBtn");
-  
+
       const countdown = setInterval(() => {
         seconds--;
         timer.textContent = seconds;
@@ -105,14 +66,8 @@
           continueBtn.classList.remove("hidden");
         }
       }, 1000);
-  
-      function redirectNow() {
-        // Track button click before redirecting
-        gtag('event', 'continue_clicked', {
-          'event_category': 'Button',
-          'event_label': 'Redirect Continue Button'
-        });
 
+      function redirectNow() {
         window.location.href = url;
       }
     }
